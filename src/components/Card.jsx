@@ -1,28 +1,38 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Card = () => {
+const Card = ({ name, price, author, genre, photo, id }) => {
+  // function to delete
+
+  async function remove(id) {
+    await axios.delete(`http://localhost:3000/api/books/${id}`);
+  }
+
   return (
-<>
-<Link to="/single">
-<div className="flex px-3 py-3">
-  <div className="max-w-sm rounded overflow-hidden shadow-lg">
-    <div className="px-6 py-4">
-      <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
-      <p className="text-gray-700 text-base">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et
-        perferendis eaque, exercitationem praesentium nihil.
-      </p>
-    </div>
-    <div className="px-6 py-4">
-      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#photography</span>
-      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#travel</span>
-      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
-    </div>
-  </div>
-</div>
-</Link>
-</>
-  )
-}
+    <>
+      {/* the main container */}
 
-export default Card
+      <div className="flex flex-col max-w-full ">
+        <Link to={`/single/${id}`}>
+          {/* the image */}
+          <img src={`/${photo}.jpeg`} alt="" className="w-100" />
+          <p className="uppercase text-xl px-4 tracking-widest text-gray-500 font-thin mt-2">
+            {author}
+          </p>
+          <p className="capitalize px-4 mt-2 text-2xl font-serif">{name}</p>
+        </Link>
+        <p className="px-4 mt-2"> Rs{price}</p>
+        <button
+          className="bg-black text-white p-2 cursor-pointer"
+          onClick={() => {
+            remove(id);
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    </>
+  );
+};
+
+export default Card;
